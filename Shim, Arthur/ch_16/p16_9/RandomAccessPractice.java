@@ -16,7 +16,7 @@ public class RandomAccessPractice {
 //		FileOutputStream out = new FileOutputStream("H:/random files/" + num + ".bin");
 //		FileInputStream input = new FileInputStream(args[0] + ".bin");
 		
-		RandomAccessFile f = new RandomAccessFileC"bank.dat", "rw");
+		RandomAccessFile f = new RandomAccessFile("bank.dat", "rw");
 	}
 
 }
