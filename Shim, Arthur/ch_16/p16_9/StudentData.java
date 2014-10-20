@@ -59,4 +59,11 @@ public class StudentData
 	{
 		file.close();
 	}
+	
+	public int find(int idNum)
+	{
+		int n = 0;
+		
+		return n;
+	}
 }
