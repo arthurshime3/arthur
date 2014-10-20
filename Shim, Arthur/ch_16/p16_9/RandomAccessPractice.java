@@ -3,6 +3,7 @@ package p16_9;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.util.Scanner;
 
 public class RandomAccessPractice {
@@ -12,11 +13,10 @@ public class RandomAccessPractice {
 		
 		Scanner k = new Scanner(System.in);
 		
-		System.out.println("Enter:");
-		int num = k.nextInt();
+//		FileOutputStream out = new FileOutputStream("H:/random files/" + num + ".bin");
+//		FileInputStream input = new FileInputStream(args[0] + ".bin");
 		
-		FileOutputStream out = new FileOutputStream("H:/random files/" + num + ".bin");
-		FileInputStream input = new FileInputStream(args[0] + ".bin");
+		RandomAccessFile f = new RandomAccessFileC"bank.dat", "rw");
 	}
 
 }
