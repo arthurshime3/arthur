@@ -8,7 +8,7 @@ public class StudentData
 	private String path;
 	private RandomAccessFile file;
 	private int ID_SIZE = 1, FIRST_NAME_SIZE = 20, LAST_NAME_SIZE = 20, GPA_SIZE = 8;
-	private int RECORD_SIZE = ID_SIZE + FIRST_NAME_SIZE + LAST_NAME_SIZE + GPA_SIZE;
+	private int SIZE = ID_SIZE + FIRST_NAME_SIZE + LAST_NAME_SIZE + GPA_SIZE;
 	
 	/**
 	 * Opens a random access file with the given path
@@ -27,7 +27,7 @@ public class StudentData
 	 */
 	public void addStudent(int n, StudentInfo student) throws IOException
 	{
-		file.seek(n * RECORD_SIZE);
+		file.seek(n * SIZE);
 		file.writeInt(student.getIdNum());
 		file.writeChars(student.getFirstName());
 		file.writeChars(student.getLastName());
@@ -42,7 +42,7 @@ public class StudentData
 	 */
 	public StudentInfo getStudent(int n) throws IOException
 	{
-		file.seek(n * RECORD_SIZE);
+		file.seek(n * SIZE);
 		int id = file.readInt();
 		String first = file.readLine();
 		String last = file.readLine();
@@ -60,10 +60,21 @@ public class StudentData
 		file.close();
 	}
 	
-	public int find(int idNum)
+	/**
+	 * Returns the location of a student's info given an id number
+	 * @param idNum id number of student info to be found
+	 * @return location of student info; -1 if not founds
+	 * @throws IOException
+	 */
+	public int find(int idNum) throws IOException
 	{
-		int n = 0;
+		for (int x = 0; x < (int)(file.length() / SIZE); x++)
+		{
+			file.seek(x * SIZE);
+			if (file.readInt() == idNum)
+				return x;
+		}
 		
-		return n;
+		return -1;
 	}
 }
