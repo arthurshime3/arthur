@@ -38,11 +38,11 @@ public class StudentInfo {
 		this.idNum = idNum;
 	}
 
-	public double getGpa() {
+	public double getGPA() {
 		return gpa;
 	}
 
-	public void setGpa(double gpa) {
+	public void setGPA(double gpa) {
 		this.gpa = gpa;
 	}
 	

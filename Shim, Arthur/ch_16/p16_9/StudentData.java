@@ -5,7 +5,6 @@ import java.io.RandomAccessFile;
 
 public class StudentData 
 {
-	private String path;
 	private RandomAccessFile file;
 	private int ID_SIZE = 1, FIRST_NAME_SIZE = 20, LAST_NAME_SIZE = 20, GPA_SIZE = 8;
 	private int SIZE = ID_SIZE + FIRST_NAME_SIZE + LAST_NAME_SIZE + GPA_SIZE;
@@ -17,8 +16,7 @@ public class StudentData
 	 */
 	public StudentData(String f) throws IOException
 	{
-		path = f;
-		file = new RandomAccessFile(path, "rw");
+		file = new RandomAccessFile(f, "rw");
 	}
 	
 	/**
@@ -31,7 +29,7 @@ public class StudentData
 		file.writeInt(student.getIdNum());
 		file.writeChars(student.getFirstName());
 		file.writeChars(student.getLastName());
-		file.writeDouble(student.getGpa());
+		file.writeDouble(student.getGPA());
 	}
 	
 	/**
@@ -68,7 +66,7 @@ public class StudentData
 	 */
 	public int find(int idNum) throws IOException
 	{
-		for (int x = 0; x < (int)(file.length() / SIZE); x++)
+		for (int x = 0; x < getSize(); x++)
 		{
 			file.seek(x * SIZE);
 			if (file.readInt() == idNum)
@@ -76,5 +74,15 @@ public class StudentData
 		}
 		
 		return -1;
+	}
+	
+	/**
+	 * Gets the size of the file
+	 * @return size of file
+	 * @throws IOException
+	 */
+	public int getSize() throws IOException
+	{
+		return (int)(file.length() / SIZE);
 	}
 }
