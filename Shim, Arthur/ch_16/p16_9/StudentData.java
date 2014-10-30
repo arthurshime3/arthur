@@ -27,9 +27,11 @@ public class StudentData
 	{
 		file.seek(n * SIZE);
 		file.writeInt(student.getIdNum());
-		file.writeChars(student.getFirstName());
-		file.writeChars(student.getLastName());
+		file.writeChars("" + '\n');
+		file.writeChars(student.getFirstName() + '\n');
+		file.writeChars(student.getLastName() + '\n');
 		file.writeDouble(student.getGPA());
+
 	}
 	
 	/**
@@ -42,6 +44,7 @@ public class StudentData
 	{
 		file.seek(n * SIZE);
 		int id = file.readInt();
+		file.readLine();
 		String first = file.readLine();
 		String last = file.readLine();
 		double gpa = file.readDouble();
@@ -61,7 +64,7 @@ public class StudentData
 	/**
 	 * Returns the location of a student's info given an id number
 	 * @param idNum id number of student info to be found
-	 * @return location of student info; -1 if not founds
+	 * @return location of student info; -1 if not found
 	 * @throws IOException
 	 */
 	public int find(int idNum) throws IOException
@@ -69,7 +72,8 @@ public class StudentData
 		for (int x = 0; x < getSize(); x++)
 		{
 			file.seek(x * SIZE);
-			if (file.readInt() == idNum)
+			
+			if (idNum == file.readInt())
 				return x;
 		}
 		

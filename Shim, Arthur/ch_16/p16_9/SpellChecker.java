@@ -12,16 +12,18 @@ public class SpellChecker {
 		
 		try{
 			
-			FileReader library = new FileReader("dictionary.txt");
+			FileReader library = new FileReader("ch_16/p16_9/dictionary");
 			ArrayList<String> notWords = new ArrayList<String>();
 			ArrayList<String> lib = new ArrayList<String>();
 			
 			Scanner in = new Scanner(library); 
 			
+			System.out.println(laterInAlphabet("arthur", "shim"));
+			
 			try{ 
 				Scanner input = new Scanner(System.in);
-				System.out.println("Enter file name");
-				FileReader file = new FileReader(input.nextLine() + ".txt");
+				System.out.println("Enter file path");
+				FileReader file = new FileReader(input.nextLine());
 				input.close();
 				
 				while (in.hasNext())
