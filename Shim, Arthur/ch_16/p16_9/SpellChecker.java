@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class SpellChecker {
 
 	public static void main(String[] args)   {
-		
+		//ch_16/p16_9/words
 		
 		try{
 			
@@ -17,8 +17,6 @@ public class SpellChecker {
 			ArrayList<String> lib = new ArrayList<String>();
 			
 			Scanner in = new Scanner(library); 
-			
-			System.out.println(laterInAlphabet("arthur", "shim"));
 			
 			try{ 
 				Scanner input = new Scanner(System.in);
@@ -33,7 +31,13 @@ public class SpellChecker {
 				while(in.hasNext())
 				{
 					String word = in.next();
-				
+					
+					while (word.length() > 0 && (word.charAt(0) > 122 || word.charAt(0) < 97))
+						word = word.substring(1);
+
+					while (word.length() > 1 && (word.charAt(word.length() - 1 ) > 122 || word.charAt(word.length() - 1) < 97))
+						word = word.substring(0, word.length() - 1);
+			
 					if (!wordFound(lib, word)) notWords.add(word);
 				}
 				
@@ -65,7 +69,7 @@ public class SpellChecker {
 			
 			if (temp.equals(word))
 				return true;
-			else if (laterInAlphabet(temp, word))
+			else if (temp.compareTo(word) > 0)
 				max = mid - 1;
 			else
 				min = mid + 1;
@@ -73,28 +77,5 @@ public class SpellChecker {
 		return false;
 	}
 	
-	/**
-	 * Returns if word 1 is later in the alphabet than word 2
-	 * @param word1 first word
-	 * @param word2 second word
-	 * @return true if word 1 is later in the alphabet than word 2
-	 */
-	public static boolean laterInAlphabet(String word1, String word2)
-	{
-		word1.toLowerCase();
-		word2.toLowerCase();
-		while (word1.length() > 0 && word2.length() > 0)
-		{
-			if (word1.charAt(0) == word2.charAt(0))
-			{
-				word1 = word1.substring(1,word1.length());
-				word2 = word2.substring(1,word2.length());
-			}
-			else if (word1.charAt(0) > word2.charAt(0))
-				return true;
-			else
-				return false;
-		}
-		return word1.length() != 0;
-	}
+	
 }
