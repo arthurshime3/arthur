@@ -9,6 +9,7 @@ public class SpellChecker {
 
 	public static void main(String[] args)   {
 		//ch_16/p16_9/words
+		//ch_16/p16_9/test
 		
 		try{
 			
@@ -31,6 +32,7 @@ public class SpellChecker {
 				while(in.hasNext())
 				{
 					String word = in.next();
+					word = word.toLowerCase();
 					
 					while (word.length() > 0 && (word.charAt(0) > 122 || word.charAt(0) < 97))
 						word = word.substring(1);
@@ -38,7 +40,7 @@ public class SpellChecker {
 					while (word.length() > 1 && (word.charAt(word.length() - 1 ) > 122 || word.charAt(word.length() - 1) < 97))
 						word = word.substring(0, word.length() - 1);
 			
-					if (!wordFound(lib, word)) notWords.add(word);
+					if (wordFound(lib, word) == -1) notWords.add(word);
 				}
 				
 				for (String a : notWords)
@@ -56,25 +58,28 @@ public class SpellChecker {
 	
 	}
 	
-	public static boolean wordFound(ArrayList<String> libs, String word)
+	public static int wordFound(ArrayList<String> libs, String word)
 	{
+		int found = -1;
 		int min = 0, max = libs.size();
-		word.toLowerCase();
+		word = word.toLowerCase();
 		while (min < max)
 		{
 			int mid = (int)((min + max) / 2);
 			
 			String temp = libs.get(mid);
-			temp.toLowerCase();
+			temp = temp.toLowerCase();
 			
 			if (temp.equals(word))
-				return true;
+				return 0;
 			else if (temp.compareTo(word) > 0)
 				max = mid - 1;
 			else
 				min = mid + 1;
 		}
-		return false;
+		if (libs.get(min).equals(word))
+			return 0;
+		return found;
 	}
 	
 	
