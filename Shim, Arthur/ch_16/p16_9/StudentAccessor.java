@@ -5,8 +5,10 @@ import java.util.Scanner;
 public class StudentAccessor {
 	
 	private static Scanner k = new Scanner(System.in);
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		//	H:/random files/output.bin
+		//  ch_16/p16_9/students.bin
 		
 		boolean done = false, fileFound = false;
 		int choice = 0, pos = 0;
@@ -15,7 +17,7 @@ public class StudentAccessor {
 		
 		while (!fileFound)
 		{
-			System.out.println("Enter file path");
+			System.out.println("Enter file path (ex. ch_16/p16_9/students.bin)");
 			try {
 				data = new StudentData(k.nextLine());
 				fileFound = true;
@@ -28,35 +30,37 @@ public class StudentAccessor {
 		while (!done)
 		{
 			showOptions();
+			try
+			{
 			choice = k.nextInt();
 			
 			switch(choice)
 			{
+			//add student
 			case 1:
 				int id = getID();
-				
-				if (id != 0)
+				String firstName = getFirstName();
+				String lastName = getLastName();
+				double gpa = getGPA();
+				try 
 				{
-					double gpa = getGPA();
-					k.nextLine();
-					String firstName = getFirstName();
-					String lastName = getLastName();
-					try 
-					{
-						data.addStudent(data.getSize() + 1, new StudentInfo(id, firstName, lastName, gpa));
-					} catch (IOException e) {
-						System.out.println("File was not found");
-					}
+					if (data.getSize() == 0)
+						data.addStudent(1, new StudentInfo(id, firstName, lastName, gpa));
+					else
+						data.addStudent(data.getSize(), new StudentInfo(id, firstName, lastName, gpa));
+				} 
+				catch (IOException e) 
+				{
+					System.out.println("File was not found");
 				}
-				else
-					System.out.println("That student was not found");
-				
-				break;
-				
+		
+			break;
+			
+			//get student info
 			case 2:
 				try 
 				{
-					student = getStudent(data);
+					student = getStudent(data, getPos());
 					
 					if (student != null)
 					{
@@ -65,136 +69,154 @@ public class StudentAccessor {
 						System.out.println("Last Name: " + student.getLastName());
 						System.out.println("GPA: " + student.getGPA());
 					}
-					else
-						System.out.println("That student was not found");
+						
 				} 
 				catch (IOException e) 
 				{
-					System.out.println("File was not found");
+					System.out.println("That student was not found");
 				}
 			
 				break;
-				
+			
+			//get first name
 			case 3:
 				try 
 				{
-					student = getStudent(data);
+					student = getStudent(data, getPos());
+					
+					if (student != null)
+						System.out.println("First Name: " + student.getFirstName());
+					
 				} 
 				catch (IOException e) 
 				{
-					System.out.println("File was not found");
+					System.out.println("That student was not found");
 				}
 				
-				if (student != null)
-					System.out.println("First Name: " + student.getFirstName());
-				else
-					System.out.println("That student was not found");
-				
 				break;
-				
+			
+			//get last name
 			case 4:
 				try 
 				{
-					student = getStudent(data);
+					student = getStudent(data, getPos());
+					
+					if (student != null)
+						System.out.println("Last Name: " + student.getLastName());
 				} 
 				catch (IOException e) 
 				{
-					System.out.println("File was not found");
-				}
-				
-				if (student != null)
-					System.out.println("Last Name: " + student.getLastName());
-				else
 					System.out.println("That student was not found");
+				}
 				
 				break;
 				
+			//get id
 			case 5:
 				try 
 				{
-					student = getStudent(data);
+					student = getStudent(data, getPos());
+					
+					if (student != null)
+						System.out.println("GPA: " + student.getIdNum());
 				} 
 				catch (IOException e) 
 				{
-					System.out.println("File was not found");
-				}
-				if (student != null)
-					System.out.println("GPA: " + student.getGPA());
-				else
 					System.out.println("That student was not found");
-				
-				break;
-				
-			case 6:
-				try
-				{
-					pos = getPos(data);
-					
-					if (pos > 0)
-					{
-						student = getStudentWithPos(data, pos);
-						System.out.println("Enter student's first name");
-						k.nextLine();
-						student.setFirstName(k.nextLine());
-						data.addStudent(pos, student);
-					}
-					else
-						System.out.println("That student was not found");
-										
-				}
-				catch (IOException e) 
-				{
-					System.out.println("File was not found");
-				}
-				break;
-				
-			case 7:
-				try
-				{
-					pos = getPos(data);
-					
-					if (pos > 0)
-					{
-						student = getStudentWithPos(data, pos);
-						System.out.println("Enter student's last name");
-						k.nextLine();
-						student.setLastName(k.nextLine());
-						data.addStudent(pos, student);
-					}
-					else
-						System.out.println("That student was not found");
-										
-				}
-				catch (IOException e) 
-				{
-					System.out.println("File was not found");
-				}
-				break;
-				
-			case 8:
-				try
-				{
-					pos = getPos(data);
-					
-					if (pos > 0)
-					{
-						student = getStudentWithPos(data, pos);
-						System.out.println("Enter student's GPA");
-						student.setGPA(k.nextDouble());
-						data.addStudent(pos, student);
-					}
-					else
-						System.out.println("That student was not found");
-						
-				}
-				catch (IOException e) 
-				{
-					System.out.println("File was not found");
 				}
 
 				break;
 				
+			//get gpa
+			case 6:
+				try 
+				{
+					student = getStudent(data, getPos());
+					
+					if (student != null)
+						System.out.println("GPA: " + student.getGPA());
+				} 
+				catch (IOException e) 
+				{
+					System.out.println("That student was not found");
+				}
+		
+				break;
+			
+			//update first name
+			case 7:
+				try
+				{
+					pos = getPos();
+					student = getStudent(data, pos);
+					
+					System.out.println("Enter student's first name");
+					student.setFirstName(k.nextLine());
+					data.addStudent(pos, student);
+														
+				}
+				catch (IOException e) 
+				{
+					System.out.println("That student was not found");
+				}
+				break;
+			
+			//update last name
+			case 8:
+				try
+				{
+					pos = getPos();
+					student = getStudent(data, pos);
+					
+					System.out.println("Enter student's last name");
+					student.setLastName(k.nextLine());
+					data.addStudent(pos, student);
+														
+				}
+				catch (IOException e) 
+				{
+					System.out.println("That student was not found");
+				}
+				break;
+			
+			//update id number
 			case 9:
+				try
+				{
+					pos = getPos();
+					student = getStudent(data, pos);
+					
+					System.out.println("Enter student's id number");
+					student.setIdNum(k.nextInt());
+					data.addStudent(pos, student);
+					k.nextLine();
+				}
+				catch (IOException e) 
+				{
+					System.out.println("That student was not found");
+				}
+				break;
+			
+			//update gpa
+			case 10:
+				try
+				{
+					pos = getPos();
+					student = getStudent(data, pos);
+					
+					System.out.println("Enter student's gpa");
+					student.setGPA(k.nextDouble());
+					data.addStudent(pos, student);
+					k.nextLine();									
+				}
+				catch (IOException e) 
+				{
+					System.out.println("That student was not found");
+				}
+				break;
+			
+			//exit
+			case 11: 
 				done = true;
 				break;
 				
@@ -202,6 +224,22 @@ public class StudentAccessor {
 				System.out.println("Invalid option");
 				break;
 			}
+			}
+		
+			catch(InputMismatchException e)
+			{
+				System.out.println("That's not a valid input");
+				k.nextLine();
+			}
+
+		}
+		
+		try 
+		{
+			data.close();
+		} catch (IOException e)
+		{
+			System.out.println("File missing");
 		}
 		
 		k.close();
@@ -213,25 +251,33 @@ public class StudentAccessor {
 		System.out.println("2: Get a student's info");
 		System.out.println("3: Get a student's first name");
 		System.out.println("4: Get a student's last name");
-		System.out.println("5: Get a student's GPA");
-		System.out.println("6: Update a student's first name");
-		System.out.println("7: Update a student's last name");
-		System.out.println("8: Update a student's GPA");
-		System.out.println("9: Quit");
+		System.out.println("5: Get a student's id");
+		System.out.println("6: Get a student's GPA");
+		System.out.println("7: Update a student's first name");
+		System.out.println("8: Update a student's last name");
+		System.out.println("9: Update a student's id");
+		System.out.println("10: Update a student's GPA");
+		System.out.println("11: Quit");
 	}
 	
-	//
+	
 	public static int getID()
 	{
 		System.out.println("Enter student id");
-		int id = 0;
-		try{
-			id = k.nextInt();
-		}
-		catch(InputMismatchException e)
+		int id = -1;
+		
+		while (id == -1)
 		{
-			System.out.println("That's not a valid student id");
+			try{
+				id = k.nextInt();
+			}
+			catch(InputMismatchException e)
+			{
+				System.out.println("That's not a valid student id");
+			}
+			k.nextLine();
 		}
+		
 		
 		return id;
 	}
@@ -258,34 +304,51 @@ public class StudentAccessor {
 	{
 
 		System.out.println("Enter student gpa");
-		double gpa = 0;
-		try{
-			gpa = k.nextDouble();
-		}
-		catch(InputMismatchException e)
+		double gpa = -1;
+		
+		while (gpa == -1)
 		{
-			System.out.println("That's not a valid GPA");
+			try{
+				gpa = k.nextDouble();
+			}
+			catch(InputMismatchException e)
+			{
+				System.out.println("That's not a valid GPA");
+			}
+			k.nextLine();
 		}
 		
 
 		return gpa;
 	}
 	
-	public static StudentInfo getStudent(StudentData data) throws IOException
-	{
-		int pos = getPos(data);
-		if (pos < 0)
-			return null;
-		return data.getStudent(pos);
-	}
-	
-	public static StudentInfo getStudentWithPos(StudentData data, int pos) throws IOException
+	public static StudentInfo getStudent(StudentData data, int pos) throws IOException
 	{
 		return data.getStudent(pos);
 	}
 	
-	public static int getPos(StudentData data) throws IOException
+	/**
+	 * Returns the number of the student being accessed
+	 * @return position of student being accessed
+	 */
+	public static int getPos() 
 	{	
-		return data.find(getID());
+		int pos = -1;
+		while (pos == -1)
+		{
+			System.out.println("Enter the number of the student you would like to get (i.e. 1 for the first student, 2 for the second, etc");
+		
+			try
+			{
+				pos = k.nextInt();
+			}
+			catch (InputMismatchException e)
+			{
+				System.out.println("That is not a valid number");
+			}
+			k.nextLine();
+		}
+		
+		return pos;
 	}
 }
