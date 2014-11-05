@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Find {
 	private File[] files;
-	private String word;
+	private String word; 
 	
 	/**
 	 * Creates a new Find object with the given files to be searched and word to be found
