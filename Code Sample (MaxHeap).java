@@ -26,8 +26,8 @@ private void downHeap(int i) {
                     swap(i, i * 2);
                     downHeap(i * 2);
                 } else {
-                swap(i, i * 2 + 1);
-                downHeap(i * 2 + 1);
+                    swap(i, i * 2 + 1);
+                    downHeap(i * 2 + 1);
                 }
             } else if (childALarger) {
                 swap(i, 2 * i);
